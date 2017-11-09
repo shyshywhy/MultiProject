@@ -1,0 +1,55 @@
+
+def initModuleCompile() {
+    Properties properties = new Properties();
+    File file = new File(rootDir.getAbsolutePath() + "/module.properties")
+    properties.load(file.newDataInputStream())
+    Iterator itr = properties.entrySet().iterator();
+    while (itr.hasNext()) {
+        Map.Entry e = (Map.Entry) itr.next();
+        String key = e.getKey();
+        rootProject.ext.setProperty(key, e.getValue());
+    }
+}
+
+initModuleCompile()
+
+ext {
+    compileDependenciesModule = this.&compileDependenciesModule
+    compile_project1 = this.&compile_project1
+    compile_project2 = this.&compile_project2
+    compile_project3 = this.&isProject1
+    compile_cloudsoft = this.&compile_cloudsoft
+
+}
+
+def compile_project1(Project projectModule){
+    projectModule.dependencies{
+        if (isAllDebug.toBoolean() || project1.toBoolean()) {
+            compile project(':project1')
+        } else {
+            println('compile project1 with aar')
+            compile(name: 'project1-release', ext: 'aar')
+        }
+    }
+}
+def compile_project2(Project projectModule){
+    projectModule.dependencies{
+        if (isAllDebug.toBoolean() || project2.toBoolean()) {
+            compile project(':project2')
+        } else {
+            println('compile bbs with aar')
+            compile(name: 'project2-release', ext: 'aar')
+        }
+    }
+}
+def compile_project3(Project projectModule){
+    projectModule.dependencies{
+        if (isAllDebug.toBoolean() || project3.toBoolean()) {
+            compile project(':project3')
+        } else {
+            println('compile cardniu with aar')
+            compile(name: 'project3-release', ext: 'aar')
+        }
+    }
+}
+
