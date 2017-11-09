@@ -14,18 +14,16 @@ def initModuleCompile() {
 initModuleCompile()
 
 ext {
-    compileDependenciesModule = this.&compileDependenciesModule
     compile_project1 = this.&compile_project1
     compile_project2 = this.&compile_project2
     compile_project3 = this.&compile_project3
-
 }
 
 def compile_project1(Project projectModule){
     projectModule.dependencies{
         if (isAllDebug.toBoolean() || isProject1.toBoolean()) {
             releaseCompile project(path: ':project1', configuration: 'release')
-            releaseCompile project(path: ':project1', configuration: 'debug')
+            debugCompile project(path: ':project1', configuration: 'debug')
         } else {
             println('compile project1 with aar')
             compile(name: 'project1-release', ext: 'aar')
@@ -47,7 +45,7 @@ def compile_project3(Project projectModule){
     projectModule.dependencies{
         if (isAllDebug.toBoolean() || isProject3.toBoolean()) {
             releaseCompile project(path: ':project3', configuration: 'release')
-            releaseCompile project(path: ':project3', configuration: 'debug')
+            debugCompile project(path: ':project3', configuration: 'debug')
         } else {
             println('compile project3 with aar')
             compile(name: 'project3-release', ext: 'aar')
